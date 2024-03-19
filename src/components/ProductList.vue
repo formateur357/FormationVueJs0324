@@ -30,7 +30,7 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import Product from "../models/Product.model";
-import AddProductForm from "./components/AddProductForm.vue";
+import AddProductForm from "./AddProductForm.vue";
 
 @Options({
   components: {
