@@ -1,7 +1,9 @@
-// Interface décrivant le format d'une pièce automobile
-export default interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
+// Classe CartItem avec liste d'initialisation
+export default class CartItem {
+  constructor(
+    public id: number,
+    public name: string,
+    public price: number,
+    public quantity: number
+  ) {}
 }

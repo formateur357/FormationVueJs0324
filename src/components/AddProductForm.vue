@@ -21,19 +21,17 @@
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
+import { Prop } from "vue-property-decorator";
 import Product from "../models/Product.model";
 
-@Options({
-  props: {
-    products: Product[],
-  },
-})
+@Options({})
 export default class AddProductForm extends Vue {
-  product: Product = { id: NaN, name: "", price: NaN, category: "" };
+  @Prop({ default: () => [] }) products!: Product[];
+  product: Product = new Product(0, "", 0, "");
 
   addProduct(): void {
-    this.product.id = Math.max(...products.map(p => p.id))++;
-    products.push(this.product);
+    this.product.id = Math.max(...this.products.map((p) => p.id)) + 1;
+    this.products.push(this.product);
   }
 }
 </script>

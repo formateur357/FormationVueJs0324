@@ -1,7 +1,9 @@
-// Interface décrivant le format d'une pièce automobile
-export default interface Product {
-  id: number;
-  name: string;
-  price: number;
-  category: string;
+// Classe Product avec liste d'initialisation
+export default class Product {
+  constructor(
+    public id: number,
+    public name: string,
+    public price: number,
+    public category: string
+  ) {}
 }

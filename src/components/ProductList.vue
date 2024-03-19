@@ -44,14 +44,9 @@ export default class ProductList extends Vue {
 
   // Déclaration du tableau de produits avec le type Product[]
   products: Product[] = [
-    { id: 0, name: "Filtre à air", price: 15, category: "pieces de rechange" },
-    { id: 1, name: "Plaquettes de frein", price: 40, category: "freins" },
-    {
-      id: 2,
-      name: "Bougies d'allumage",
-      price: 22,
-      category: "pieces de rechange",
-    },
+    new Product(0, "Filtre à air", 15, "pieces de rechange"),
+    new Product(1, "Plaquettes de frein", 40, "freins"),
+    new Product(2, "Bougies d'allumage", 22, "pieces de rechange"),
   ];
 
   // Initialisation de la propriété selectedCategory avec une chaîne vide

@@ -32,12 +32,7 @@ export default class App extends Vue {
     if (existingItem) {
       existingItem.quantity++;
     } else {
-      const newItem: CartItem = {
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        quantity: 1,
-      };
+      const newItem = new CartItem(product.id, product.name, product.price, 1);
       this.cartItems.push(newItem);
       console.log(this.cartItems);
     }
