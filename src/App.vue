@@ -1,43 +1,20 @@
 <template>
-  <!-- Le contenu de ce template sera rendu dans l'application -->
-  <!-- Utilisation du composant ProductList -->
-  <Cart :cartItems="cartItems" />
-  <ProductList @add-product="handleAddToCart($event)" />
-  <!-- <ProductListJsVue /> -->
+  <div id="app">
+    <!-- Barre de navigation -->
+    <nav>
+      <router-link to="/">Accueil</router-link> |
+      <router-link to="/addProducts">Ajout de nouveau produit</router-link> |
+      <router-link to="/cart">Panier</router-link>
+    </nav>
+
+    <!-- Contenu de la page -->
+    <router-view />
+  </div>
 </template>
 
-<script lang="ts">
-// Import des modules nécessaires depuis Vue.js
-import { Options, Vue } from "vue-class-component";
-// Import du composant ProductList depuis le fichier correspondant
-import ProductList from "./components/ProductList.vue";
-import Cart from "./components/Cart.vue";
-import CartItem from "./models/CartItem.model";
-import Product from "./models/Product.model";
-
-// Définition des options du composant principal App
-@Options({
-  components: {
-    // Enregistrement du composant ProductList pour qu'il puisse être utilisé dans ce composant
-    ProductList,
-    Cart,
-  },
-})
-// Définition de la classe du composant principal App
-export default class App extends Vue {
-  cartItems: CartItem[] = [];
-
-  handleAddToCart(product: Product): void {
-    const existingItem = this.cartItems.find((item) => item.id === product.id);
-    if (existingItem) {
-      existingItem.quantity++;
-    } else {
-      const newItem = new CartItem(product.id, product.name, product.price, 1);
-      this.cartItems.push(newItem);
-      console.log(this.cartItems);
-    }
-  }
-}
+<script setup>
+// Pas besoin d'ajouter quelque chose dans <script setup> pour le routage de base.
+// Mais vous pouvez importer et utiliser des composants ou des utilitaires supplémentaires ici au besoin.
 </script>
 
 <style>
