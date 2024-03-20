@@ -6,9 +6,9 @@ export const useProductsStore = defineStore({
   id: "products",
   state: () => ({
     products: [
-      new Product(0, "Filtre à air", 15, "pieces de rechange"),
+      new Product(0, "Filtre à air", 15, "pieces"),
       new Product(1, "Plaquettes de frein", 40, "freins"),
-      new Product(2, "Bougies d'allumage", 22, "pieces de rechange"),
+      new Product(2, "Bougies d'allumage", 22, "pieces"),
     ],
     cart: [] as CartItem[],
   }),

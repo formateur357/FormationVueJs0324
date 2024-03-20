@@ -12,7 +12,7 @@
       <!-- Option pour afficher toutes les catégories -->
       <option value="">Toutes les catégories</option>
       <!-- Options pour sélectionner des catégories spécifiques -->
-      <option value="pieces de rechange">Pièces de rechange</option>
+      <option value="pieces">Pièces de rechange</option>
       <option value="freins">Freins</option>
     </select>
     <button type="submit">Ajouter le produit</button>
