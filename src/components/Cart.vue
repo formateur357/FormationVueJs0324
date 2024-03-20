@@ -1,74 +1,46 @@
-<!-- eslint-disable prettier/prettier -->
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <!-- Début du template -->
   <div>
     <h2>Panier</h2>
     <ul>
-        <li v-for="(item, index) in cartItems" :key="item.id">
-            {{ item.name }} - {{ item.quantity }} x {{ item.price }}$
-            <button @click="decreaseQuantity(index)">-</button>
-            <button @click="increaseQuantity(index)">+</button>
-            <button @click="removeItem(index)">Supprimer</button>
-        </li>
+      <li v-for="item in cartItems" :key="item.id">
+        <div>
+          {{ item.name }} - {{ item.price }} €
+          <input
+            type="number"
+            min="1"
+            :value="item.quantity"
+            @input="updateQuantity(item, $event)"
+          />
+          <button @click="removeFromCart(item)">Supprimer</button>
+        </div>
+      </li>
     </ul>
-    <p>Total: {{ totalPrice }}$</p>
+    <p>Total: {{ productsStore.totalPrice }}$</p>
   </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import { Prop } from "vue-property-decorator";
-import CartItem from "../models/CartItem.model";
+<script setup lang="ts">
+// Importations nécessaires
+import { computed } from "vue";
+import { useProductsStore } from "@/stores/product";
+import CartItem from "@/models/CartItem.model";
 
-@Options({})
-export default class Cart extends Vue {
-  @Prop({ default: () => [] }) cartItems!: CartItem[];
+// Utilisation du magasin Pinia pour le panier
+const productsStore = useProductsStore();
+const cartItems = computed(() => productsStore.cartItems);
 
-  // Méthode pour calculer le total du panier
-  get totalPrice(): number {
-    return this.cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
-  }
+// Fonction pour enlever un produit du panier
+const removeFromCart = (item: CartItem) => {
+  productsStore.removeFromCart(item);
+};
 
-  // // Le watcher sur `cartItems`
-  // @Watch("cartItems", { deep: true }) // Utilisez { deep: true } pour surveiller les changements dans les objets/arrays
-  // onCartItemsChanged(newVal: CartItem[], oldVal: CartItem[]) {
-  //   console.log("cartItems changed", newVal);
-  //   // Ici, vous pouvez effectuer la tâche pertinente, par exemple calculer le total du panier
-  //   this.calculateTotal();
-  // }
-
-  // calculateTotal() {
-  //   // Supposons que vous voulez calculer le total
-  //   const total = this.cartItems.reduce(
-  //     (sum, item) => sum + item.price * item.quantity,
-  //     0
-  //   );
-  //   console.log("Total du panier: ", total);
-  //   // Vous pouvez également stocker ce total dans une variable de données si nécessaire
-  // }
-
-  // Méthode pour augmenter la quantité d'un article
-  increaseQuantity(index: number): void {
-    this.cartItems[index].quantity++;
-  }
-
-  // Méthode pour diminuer la quantité d'un article
-  decreaseQuantity(index: number): void {
-    if (this.cartItems[index].quantity > 1) {
-      this.cartItems[index].quantity--;
-    } else {
-      this.removeItem(index); // Supprime l'article si la quantité est 0
-    }
-  }
-
-  // Méthode pour supprimer un article du panier
-  removeItem(index: number): void {
-    this.cartItems.splice(index, 1);
-  }
-}
+const updateQuantity = (item: CartItem, event: Event) => {
+  const target = event.target as HTMLInputElement; // Cast 'event.target' en 'HTMLInputElement'
+  const quantity = parseInt(target.value, 10);
+  productsStore.updateCartQuantity(item, quantity);
+};
 </script>
 
 <style scoped>

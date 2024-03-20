@@ -14,66 +14,44 @@
     <!-- Liste des pièces automobiles -->
     <ul>
       <!-- Itération sur les produits filtrés -->
-      <li v-for="(product, index) in filteredProducts" :key="product.id">
+      <li v-for="product in filteredProducts" :key="product.id">
         <!-- Affichage du nom et du prix de chaque pièce automobile -->
         {{ product.name }} pour {{ product.price }}
         <!-- Bouton pour supprimer la pièce automobile -->
-        <button @click="removeProduct(index)">Supprimer</button>
-        <button @click="addToCart(product)">Ajouter au panier</button>
+        <button @click="productsStore.addToCart(product)">
+          Ajouter au panier
+        </button>
       </li>
     </ul>
   </div>
-  <AddProductForm :products="products" />
+  <AddProductForm />
   <!-- Fin du template -->
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component";
+<script setup lang="ts">
+import { computed } from "vue";
+import { useProductsStore } from "@/stores/product";
 import Product from "../models/Product.model";
 import AddProductForm from "./AddProductForm.vue";
 
-@Options({
-  components: {
-    // Enregistrement du composant ProductList pour qu'il puisse être utilisé dans ce composant
-    AddProductForm,
-  },
-})
-export default class ProductList extends Vue {
-  // Déclaration de la propriété 'msg' comme étant de type string
-  msg!: string;
+// Utilisation du magasin Pinia
+const productsStore = useProductsStore();
 
-  // Déclaration du tableau de produits avec le type Product[]
-  products: Product[] = [
-    new Product(0, "Filtre à air", 15, "pieces de rechange"),
-    new Product(1, "Plaquettes de frein", 40, "freins"),
-    new Product(2, "Bougies d'allumage", 22, "pieces de rechange"),
-  ];
+// Calcul de la liste des produits disponibles pour affichage
+const availableProducts = computed(() => productsStore.availableProducts);
 
-  // Initialisation de la propriété selectedCategory avec une chaîne vide
-  selectedCategory = "";
+const selectedCategory = "";
 
-  // Méthode pour filtrer les produits en fonction de la catégorie sélectionnée
-  get filteredProducts(): Product[] {
-    if (!this.products || this.products.length === 0) {
-      return [];
-    } else {
-      return this.products.filter((product: Product) => {
-        return this.selectedCategory
-          ? product.category === this.selectedCategory
-          : true;
-      });
-    }
+// Calcul de la liste filtrees des produits
+const filteredProducts = computed(() => {
+  if (!availableProducts.value || availableProducts.value.length === 0) {
+    return [];
+  } else {
+    return availableProducts.value.filter((product: Product) => {
+      return selectedCategory ? product.category === selectedCategory : true;
+    });
   }
-
-  // Méthode pour supprimer un produit de la liste
-  removeProduct(index: number): void {
-    this.products.splice(index, 1);
-  }
-
-  addToCart(product: Product): void {
-    this.$emit("add-product", product);
-  }
-}
+});
 </script>
 
 <style scoped>
