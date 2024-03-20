@@ -23,7 +23,10 @@
 // Importation de la composition API et du magasin Pinia
 import { ref } from "vue";
 import { useProductsStore } from "@/stores/product";
+import { useRouter } from "vue-router";
 import Product from "@/models/Product.model";
+
+const router = useRouter();
 
 // Utilisation du magasin Pinia
 const productsStore = useProductsStore();
@@ -34,7 +37,32 @@ function addProduct() {
   product.value.id = Math.max(...productsStore.products.map((p) => p.id)) + 1;
   productsStore.addProduct(product.value); // Ajout du produit au magasin
   product.value = new Product(0, "", 0, ""); // Réinitialisation du formulaire après l'ajout
+  router.push("/");
+  // router.push({ name: "Home" });
+  // router.back();
+  // router.push({ name: "ProductDetail", params: { id: userId } });
+  // watch(() => route.params, (newParams, oldParams) => {
+  //   Réagir au changement
+  // });
 }
+
+// const isDirty = ref(false); // Supposons que cela contrôle si des modifications ont été faites
+
+// onBeforeRouteLeave((to, from, next) => {
+//   if (isDirty.value) {
+//     const answer = window.confirm('Vous avez des modifications non sauvegardées. Êtes-vous sûr de vouloir partir ?');
+//     if (answer) {
+//       // L'utilisateur confirme vouloir partir, continuer la navigation
+//       next();
+//     } else {
+//       // L'utilisateur décide de rester, annuler la navigation
+//       next(false);
+//     }
+//   } else {
+//     // Pas de modifications non sauvegardées, continuer la navigation
+//     next();
+//   }
+// });
 </script>
 
 <style scoped></style>

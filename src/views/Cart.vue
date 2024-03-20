@@ -1,5 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
+  <!-- <router-view /> -->
   <!-- Début du template -->
   <div>
     <h2>Panier</h2>

@@ -8,6 +8,11 @@
     </nav>
 
     <!-- Contenu de la page -->
+    <!-- <router-view v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view> -->
     <router-view />
   </div>
 </template>
@@ -32,5 +37,14 @@
   color: #2c3e50;
   /* Marge supérieure de l'élément pour créer un espacement avec le haut de la page */
   margin-top: 60px;
+
+  /* .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.5s;
+  }
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+  } */
 }
 </style>

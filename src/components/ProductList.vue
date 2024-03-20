@@ -1,4 +1,5 @@
 <template>
+  <!-- <slot></slot> -->
   <div>
     <h2>Liste des pièces Automobile</h2>
     <select v-model="selectedCategory">
@@ -10,7 +11,11 @@
     <ul>
       <!-- Itération sur les produits filtrés -->
       <li v-for="product in filteredProducts" :key="product.id">
-        {{ product.name }} pour {{ product.price }}
+        <router-link
+          :to="{ name: 'productDetails', params: { id: product.id } }"
+        >
+          {{ product.name }} pour {{ product.price }}
+        </router-link>
         <button @click="productsStore.addToCart(product)">
           Ajouter au panier
         </button>
